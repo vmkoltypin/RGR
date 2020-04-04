@@ -25,8 +25,11 @@ public:
 		}
 		return os;
 	}
-	void bublesort();
-	void sort() { qsort(arr, n, sizeof(T), comp); }
+	void BubleSort();
+	void InsertSort();
+	void SelectSort();
+	void ShelSort();
+	void QuickSort();
 	friend istream& operator >>(istream& os, Array& a)
 	{
 		os >> a.n;
@@ -37,7 +40,6 @@ public:
 		}
 		return os;
 	}
-
 	static int comp(const void* a, const void* b) {
 		T* ap = (T*)a;
 		T* bp = (T*)b;
@@ -46,7 +48,6 @@ public:
 		else return 0;
 	}
 };
-
 
 template<class T>
 inline void Array<T>::copy(T* a, int k)
@@ -58,7 +59,7 @@ inline void Array<T>::copy(T* a, int k)
 }
 
 template<class T>
-inline void Array<T>::bublesort()
+inline void Array<T>::BubleSort()
 {
 	bool flag = 1;
 	T t;
@@ -74,6 +75,74 @@ inline void Array<T>::bublesort()
 		}
 	}
 }
+
+template<class T>
+inline void Array<T>::InsertSort()
+{
+	T t;
+	for (int i = 1; i <n; i++)
+	{
+		int k = i;
+		while (k > 0 && arr[k - 1] > arr[k])
+		{
+			t = arr[k - 1];
+			arr[k - 1] = arr[k];
+			arr[k] = t;
+			k--;
+		}
+		
+	}
+	
+}
+
+template<class T>
+inline void Array<T>::SelectSort()
+{
+	T t;
+	int min;
+	for (int i = 0; i < n - 1; i++)
+	{
+		min = i;
+		for (int j = i + 1; j < n; j++)
+		{
+			if (arr[j] < arr[min]) min=j;
+		}
+		if (min != i)
+		{
+			t = arr[min];
+			arr[min] = arr[i];
+			arr[i] = t;
+		}
+	}
+
+}
+
+template<class T>
+inline void Array<T>::ShelSort()
+{
+	T t;
+	for (int step = n / 2; step > 0; step /= 2)
+	{
+		for (int i = step; i < n; i++)
+		{
+			for (int j = i - step; j >= 0 && arr[j] > arr[j + step]; j -= step)
+			{
+				t = arr[j];
+				arr[j] = arr[j + step];
+				arr[j + step] = t;
+			}
+		}
+	}
+}
+
+template<class T>
+inline void Array<T>::QuickSort()
+{
+	qsort(arr, n, sizeof(T), comp);
+}
+
+
+
 
 template<class T>
 inline Array<T>::Array(T* a, int n)

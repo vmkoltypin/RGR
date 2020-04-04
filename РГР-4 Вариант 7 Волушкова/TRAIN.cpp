@@ -18,8 +18,29 @@ Train::Train(string dest,  int num,  int time)
 
 bool Train::operator>(const Train& a)
 {
-	
 	return this->num>a.num;
+}
+
+bool Train::operator<(const Train& a)
+{
+	return this->num < a.num;
+}
+bool Train::operator==(const Train& a)
+{
+	return this->num == a.num;
+}
+
+bool Train::operator!=(const Train& a)
+{
+	return this->num != a.num;
+}
+
+Train& Train::operator=(const Train& a)
+{
+	this->dest = a.dest;
+	this->num = a.num;
+	this->time = a.time;
+	return *this;
 }
 
 ostream& operator<<(ostream& os, const Train& a)
