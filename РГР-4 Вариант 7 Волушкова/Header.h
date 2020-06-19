@@ -1,5 +1,6 @@
 #pragma once
 #include <fstream>
+//#include "sort.h"
 using namespace std;
 template <class T>
 class Array
@@ -16,6 +17,8 @@ public:
 	Array(const Array& a);
 	void setN(int n);
 	Array& operator=(const Array& a);
+	bool operator>(const Array& a);
+	bool operator<(const Array& a);
 	T& operator[](int n);
 	friend ostream& operator <<(ostream& os, const Array& a) 
 	{
@@ -25,11 +28,11 @@ public:
 		}
 		return os;
 	}
-	void BubleSort();
-	void InsertSort();
+	//void BubleSort();
+	/*void InsertSort();
 	void SelectSort();
 	void ShelSort();
-	void QuickSort();
+	void QuickSort();*/
 	friend istream& operator >>(istream& os, Array& a)
 	{
 		os >> a.n;
@@ -40,7 +43,8 @@ public:
 		}
 		return os;
 	}
-	static int comp(const void* a, const void* b) {
+	static int comp(const void* a, const void* b)
+	{
 		T* ap = (T*)a;
 		T* bp = (T*)b;
 		if (*ap > * bp)return 1;
@@ -57,92 +61,6 @@ inline void Array<T>::copy(T* a, int k)
 		arr[i] = a[i];
 	}
 }
-
-template<class T>
-inline void Array<T>::BubleSort()
-{
-	bool flag = 1;
-	T t;
-	while (flag)
-	{
-		flag = false;
-		for (int i = 0; i < n-1; i++)
-		if(arr[i]>arr[i+1]){
-			t = arr[i];
-			arr[i] = arr[i + 1];
-			arr[i + 1] = t;
-			flag = true;
-		}
-	}
-}
-
-template<class T>
-inline void Array<T>::InsertSort()
-{
-	T t;
-	for (int i = 1; i <n; i++)
-	{
-		int k = i;
-		while (k > 0 && arr[k - 1] > arr[k])
-		{
-			t = arr[k - 1];
-			arr[k - 1] = arr[k];
-			arr[k] = t;
-			k--;
-		}
-		
-	}
-	
-}
-
-template<class T>
-inline void Array<T>::SelectSort()
-{
-	T t;
-	int min;
-	for (int i = 0; i < n - 1; i++)
-	{
-		min = i;
-		for (int j = i + 1; j < n; j++)
-		{
-			if (arr[j] < arr[min]) min=j;
-		}
-		if (min != i)
-		{
-			t = arr[min];
-			arr[min] = arr[i];
-			arr[i] = t;
-		}
-	}
-
-}
-
-template<class T>
-inline void Array<T>::ShelSort()
-{
-	T t;
-	for (int step = n / 2; step > 0; step /= 2)
-	{
-		for (int i = step; i < n; i++)
-		{
-			for (int j = i - step; j >= 0 && arr[j] > arr[j + step]; j -= step)
-			{
-				t = arr[j];
-				arr[j] = arr[j + step];
-				arr[j + step] = t;
-			}
-		}
-	}
-}
-
-template<class T>
-inline void Array<T>::QuickSort()
-{
-	qsort(arr, n, sizeof(T), comp);
-}
-
-
-
 
 template<class T>
 inline Array<T>::Array(T* a, int n)
@@ -192,6 +110,18 @@ inline Array<T>& Array<T>::operator=(const Array<T>& a)
 	arr = new T[n];
 	copy(a.arr, n);
 	return *this;
+}
+
+template<class T>
+bool Array<T>::operator>(const Array<T>& a)
+{
+	return this->T > a.T;
+}
+
+template<class T>
+bool Array<T>::operator<(const Array<T>& a)
+{
+	return this->T < a.T;
 }
 
 template<class T>
